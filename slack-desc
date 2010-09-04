@@ -1,0 +1,11 @@
+libffado: libffAdo (Free Firewire Audio Drivers)
+libffado:
+libffado: The FFADO project aims to provide a generic, open-source solution
+libffado: for the support of FireWire based audio devices for the Linux
+libffado: platform.  It is the successor of the FreeBoB project.
+libffado: FFADO is a volunteer-based community effort, trying to provide
+libffado: Linux with at least the same level of functionality that is
+libffado: present on the other operating systems.
+libffado:
+libffado:
+libffado: Packaged by Georgi D. Sotiorov <gdsotirov@dir.bg>
