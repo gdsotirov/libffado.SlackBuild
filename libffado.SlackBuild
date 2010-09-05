@@ -59,7 +59,10 @@ install -m 644 $SRC/support/xdg/hi64-apps-ffado.png          $PKG/usr/share/icon
 # Prepare
 bin_perms $PKG
 ( cd $PKG; strip_bin; strip_lib )
+DOCFILES="$DOCFILES LICENSE.*"
 ( cd $SRC; create_docs $PKG $NAME-$VERSION )
+( cd $PKG/usr/doc/$NAME-$VERSION
+  install -m 644 LICENSE.GPLv2 COPYING )
 
 mkdir -p $PKG/install
 install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
