@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # 
-# $Id: libffado.SlackBuild,v 1.4 2012/09/16 07:00:32 gsotirov Exp $
+# $Id: libffado.SlackBuild,v 1.5 2012/09/16 07:42:48 gsotirov Exp $
 #
 
 . ../../slack-package.conf
@@ -57,14 +57,15 @@ patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff
 
 # Configure, build & install
 scons \
-  DIST_TARGET=none \
+  DIST_TARGET=auto \
   COMPILE_FLAGS="$FFADO_FLAGS" \
   DEBUG=no \
   ENABLE_OPTIMIZATIONS=yes \
   PREFIX=/usr \
   LIBDIR=/usr/lib${LIBDIRSUFFIX} \
   SERIALIZE_USE_EXPAT=yes \
-  DESTDIR=$PKG install || exit 2
+  DESTDIR=$PKG install \
+  -j4 || exit 2
 
 # Additional installation steps
 install -m 755 -d -D $PKG/usr/share/applications
