@@ -1,8 +1,8 @@
-cxxlibs >= 6.0.13 | gcc-g++ >= 4.4.4
-dbus >= 1.2.24
+cxxlibs >= 6.0.14 | gcc-g++ >= 4.5.2
+dbus >= 1.4.1
 expat >= 2.0.1
-gcc >= 4.4.4
-glibc-solibs >= 2.11.1
+gcc >= 4.5.2
+glibc-solibs >= 2.13
 libiec61883 >= 1.2.0
-libraw1394 >= 2.0.5
+libraw1394 >= 2.0.9
 python >= 2.6
