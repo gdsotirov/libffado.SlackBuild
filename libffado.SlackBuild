@@ -17,15 +17,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # 
-# $Id: libffado.SlackBuild,v 1.5 2012/09/16 07:42:48 gsotirov Exp $
+# $Id: libffado.SlackBuild,v 1.6 2012/09/17 14:23:24 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=libffado
-VERSION=2.0.1
+REV_SVN='svn2217'
+VERSION='2.1.0'
+ARCh=${ARCH:-i486}
 BUILD=${BUILD:-1}
 FFADO_FLAGS=`echo $SLKCFLAGS | sed s/\-O[123s]//`
+
+if [ "$ARCH" == "i386" -o "$ARCH" == "i486" -o "$ARCH" = "i586" ]; then
+  SCONS_TARGET="i386"
+else
+  SCONS_TARGET="auto"
+fi
 
 TMP=${TMP:-/tmp}
 CWD=${CWD:-`pwd`}
@@ -34,7 +42,7 @@ if [ ! -e $TMP ]; then
   mkdir -p $TMP # location to build the source
 fi
 
-SRC=$TMP/$NAME-$VERSION
+SRC=$TMP/$NAME-${VERSION}
 if [ -e $SRC -a -d $SRC ]; then
   echo "Source directory '$SRC' already exists! Plaese, move it or remove it."
   exit 1
@@ -49,16 +57,17 @@ mkdir -p $PKG
 
 # Extract the source
 cd $TMP
-tar -xvf $CWD/$NAME-$VERSION.tar.gz || exit 1
+tar -xvf $CWD/$NAME-${VERSION}.${REV_SVN}.tar.?z* || exit 1
 cd $SRC fix_source
 
 # Apply patches
 patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff
 
+LIBXML_CFLAGS=`pkg-config libxml++-2.6 --cflags` # build fails without these
 # Configure, build & install
 scons \
-  DIST_TARGET=auto \
-  COMPILE_FLAGS="$FFADO_FLAGS" \
+  DIST_TARGET=$SCONS_TARGET \
+  COMPILE_FLAGS="$FFADO_FLAGS $LIBXML_CFLAGS" \
   DEBUG=no \
   ENABLE_OPTIMIZATIONS=yes \
   PREFIX=/usr \
@@ -80,6 +89,7 @@ DOCFILES="$DOCFILES LICENSE.*"
 ( cd $SRC; create_docs $PKG $NAME-$VERSION )
 ( cd $PKG/usr/doc/$NAME-$VERSION
   install -m 644 LICENSE.GPLv2 COPYING )
+gzip_man $PKG
 
 mkdir -p $PKG/install
 install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
