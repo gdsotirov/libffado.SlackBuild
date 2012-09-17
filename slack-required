@@ -1,8 +1,11 @@
+alsa-lib >= 1.0.24.1
 cxxlibs >= 6.0.14 | gcc-g++ >= 4.5.2
 dbus >= 1.4.1
 expat >= 2.0.1
 gcc >= 4.5.2
 glibc-solibs >= 2.13
+libconfig >= 1.4.8
+libdbus-c++ >= 0.9.0
 libiec61883 >= 1.2.0
 libraw1394 >= 2.0.9
 python >= 2.6
