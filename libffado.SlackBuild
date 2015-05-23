@@ -17,13 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # 
-# $Id: libffado.SlackBuild,v 1.7 2015/05/19 19:58:06 gsotirov Exp $
+# $Id: libffado.SlackBuild,v 1.8 2015/05/23 19:53:37 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=libffado
-VERSION='2.1.0'
+VERSION=2.2.1
 ARCh=${ARCH:-i486}
 BUILD=${BUILD:-1}
 FFADO_FLAGS=`echo $SLKCFLAGS | sed s/\-O[123s]//`
@@ -62,7 +62,8 @@ cd $SRC fix_source
 # Apply patches
 patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff || exit 4
 
-LIBXML_CFLAGS=`pkg-config libxml++-2.6 --cflags` # build fails without these
+# build fails without the proper LibXML++ cflags
+LIBXML_CFLAGS=`pkg-config libxml++-2.6 --cflags`
 # Configure, build & install
 scons \
   DIST_TARGET=$SCONS_TARGET \
