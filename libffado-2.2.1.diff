@@ -1,0 +1,213 @@
+# Fix compilation errors associated with missing includes in the expat serialiser
+# See http://subversion.ffado.org/changeset/2586
+diff -urNad libffado-2.2.1-orig/src/libutil/serialize_expat.cpp libffado-2.2.1/src/libutil/serialize_expat.cpp
+--- libffado-2.2.1-orig/src/libutil/serialize_expat.cpp 2009-12-19 18:12:53.000000000 +0200
++++ libffado-2.2.1/src/libutil/serialize_expat.cpp      2015-05-23 22:39:01.000000000 +0300
+@@ -24,6 +24,8 @@
+  // FOR CACHE_VERSION
+
+ #include "serialize.h"
++#include "version.h"
++#include <stdlib.h>
+
+ using namespace std;
+
+# Fix compilation error when configured with SERIALIZE_USE_EXPAT=1
+# See http://subversion.ffado.org/ticket/390
+# See http://subversion.ffado.org/changeset/2587
+diff -urNad libffado-2.2.1-orig/src/bebob/bebob_dl_mgr.cpp libffado-2.2.1/src/bebob/bebob_dl_mgr.cpp
+--- libffado-2.2.1-orig/src/bebob/bebob_dl_mgr.cpp	2012-07-06 16:31:48.000000000 +0300
++++ libffado-2.2.1/src/bebob/bebob_dl_mgr.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -36,6 +36,7 @@
+ #include <cstdio>
+ #include <cstring>
+ #include <unistd.h>
++#include <memory>
+ 
+ namespace BeBoB {
+     enum {
+diff -urNad libffado-2.2.1-orig/src/ffadodevice.h libffado-2.2.1/src/ffadodevice.h
+--- libffado-2.2.1-orig/src/ffadodevice.h	2013-10-15 22:18:30.000000000 +0300
++++ libffado-2.2.1/src/ffadodevice.h	2015-05-23 22:29:02.000000000 +0300
+@@ -32,6 +32,7 @@
+ 
+ #include "libieee1394/vendor_model_ids.h"
+ 
++#include <memory>
+ #include <vector>
+ #include <string>
+ 
+diff -urNad libffado-2.2.1-orig/support/firmware/bridgeco-downloader.cpp libffado-2.2.1/support/firmware/bridgeco-downloader.cpp
+--- libffado-2.2.1-orig/support/firmware/bridgeco-downloader.cpp	2010-05-03 23:01:01.000000000 +0300
++++ libffado-2.2.1/support/firmware/bridgeco-downloader.cpp	2015-05-23 22:29:05.000000000 +0300
+@@ -21,6 +21,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include "downloader.h"
+ 
+ #include "src/bebob/bebob_dl_mgr.h"
+diff -urNad libffado-2.2.1-orig/support/firmware/dice-firmware-utility.cpp libffado-2.2.1/support/firmware/dice-firmware-utility.cpp
+--- libffado-2.2.1-orig/support/firmware/dice-firmware-utility.cpp	2012-03-06 16:08:10.000000000 +0200
++++ libffado-2.2.1/support/firmware/dice-firmware-utility.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -24,6 +24,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/support/firmware/downloader.cpp libffado-2.2.1/support/firmware/downloader.cpp
+--- libffado-2.2.1-orig/support/firmware/downloader.cpp	2008-05-29 11:24:21.000000000 +0300
++++ libffado-2.2.1/support/firmware/downloader.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include "downloader.h"
+ 
+ #include "libieee1394/configrom.h"
+diff -urNad libffado-2.2.1-orig/support/tools/ffado-set-nickname.cpp libffado-2.2.1/support/tools/ffado-set-nickname.cpp
+--- libffado-2.2.1-orig/support/tools/ffado-set-nickname.cpp	2012-09-11 15:21:04.000000000 +0300
++++ libffado-2.2.1/support/tools/ffado-set-nickname.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -23,6 +23,7 @@
+  *
+  */
+ 
++#include "config.h"
+ #include "devicemanager.h"
+ 
+ #include "dice/dice_avdevice.h"
+diff -urNad libffado-2.2.1-orig/tests/scan-devreg.cpp libffado-2.2.1/tests/scan-devreg.cpp
+--- libffado-2.2.1-orig/tests/scan-devreg.cpp	2013-06-20 13:25:44.000000000 +0300
++++ libffado-2.2.1/tests/scan-devreg.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -23,6 +23,7 @@
+  *
+  */
+ 
++#include "config.h"
+ #include <libraw1394/raw1394.h>
+ #include "libutil/ByteSwap.h"
+ 
+@@ -36,6 +37,7 @@
+ #include <cstdlib>
+ #include <iostream>
+ #include <cstring>
++#include <memory>
+ 
+ using namespace std;
+ 
+diff -urNad libffado-2.2.1-orig/tests/set-default-router-config-dice-eap.cpp libffado-2.2.1/tests/set-default-router-config-dice-eap.cpp
+--- libffado-2.2.1-orig/tests/set-default-router-config-dice-eap.cpp	2012-05-03 03:45:10.000000000 +0300
++++ libffado-2.2.1/tests/set-default-router-config-dice-eap.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-avccmd.cpp libffado-2.2.1/tests/test-avccmd.cpp
+--- libffado-2.2.1-orig/tests/test-avccmd.cpp	2008-05-29 11:24:21.000000000 +0300
++++ libffado-2.2.1/tests/test-avccmd.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-dice-eap.cpp libffado-2.2.1/tests/test-dice-eap.cpp
+--- libffado-2.2.1-orig/tests/test-dice-eap.cpp	2012-03-29 23:28:55.000000000 +0300
++++ libffado-2.2.1/tests/test-dice-eap.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-echomixer.cpp libffado-2.2.1/tests/test-echomixer.cpp
+--- libffado-2.2.1-orig/tests/test-echomixer.cpp	2008-05-29 11:24:21.000000000 +0300
++++ libffado-2.2.1/tests/test-echomixer.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-ffado.cpp libffado-2.2.1/tests/test-ffado.cpp
+--- libffado-2.2.1-orig/tests/test-ffado.cpp	2011-01-16 19:01:31.000000000 +0200
++++ libffado-2.2.1/tests/test-ffado.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -26,6 +26,7 @@
+  * This version uses the CPP API
+  */
+ 
++#include "config.h"
+ #include "version.h"
+ 
+ #include "libffado/ffado.h"
+diff -urNad libffado-2.2.1-orig/tests/test-focusrite.cpp libffado-2.2.1/tests/test-focusrite.cpp
+--- libffado-2.2.1-orig/tests/test-focusrite.cpp	2009-12-19 18:12:53.000000000 +0200
++++ libffado-2.2.1/tests/test-focusrite.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -22,6 +22,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-ieee1394service.cpp libffado-2.2.1/tests/test-ieee1394service.cpp
+--- libffado-2.2.1-orig/tests/test-ieee1394service.cpp	2012-03-23 13:29:32.000000000 +0200
++++ libffado-2.2.1/tests/test-ieee1394service.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -21,9 +21,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+ #include <config.h>
+-#endif
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+diff -urNad libffado-2.2.1-orig/tests/test-scs.cpp libffado-2.2.1/tests/test-scs.cpp
+--- libffado-2.2.1-orig/tests/test-scs.cpp	2012-04-28 13:29:22.000000000 +0300
++++ libffado-2.2.1/tests/test-scs.cpp	2015-05-23 22:29:03.000000000 +0300
+@@ -24,6 +24,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include <libraw1394/raw1394.h>
+ #include <libiec61883/iec61883.h>
+ 
+diff -urNad libffado-2.2.1-orig/tests/test-volume.cpp libffado-2.2.1/tests/test-volume.cpp
+--- libffado-2.2.1-orig/tests/test-volume.cpp	2008-05-06 00:29:40.000000000 +0300
++++ libffado-2.2.1/tests/test-volume.cpp	2015-05-23 22:29:04.000000000 +0300
+@@ -21,6 +21,8 @@
+  *
+  */
+ 
++#include "config.h"
++
+ #include "libavc/audiosubunit/avc_function_block.h"
+ #include "libutil/serialize.h"
+ #include "libutil/cmd_serialize.h"
