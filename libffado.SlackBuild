@@ -17,13 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # 
-# $Id: libffado.SlackBuild,v 1.9 2016/08/08 17:08:26 gsotirov Exp $
+# $Id: libffado.SlackBuild,v 1.10 2016/08/09 12:52:47 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=libffado
-VERSION=2.2.1
+VERSION=2.3.0
 ARCh=${ARCH:-i586}
 BUILD=${BUILD:-1}
 FFADO_FLAGS=`echo $SLKCFLAGS | sed s/\-O[123s]//`
@@ -60,7 +60,9 @@ tar -xvf $CWD/$NAME-${VERSION}.tar.?z* || exit 3
 cd $SRC fix_source
 
 # Apply patches
-patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff || exit 4
+if [ -e $CWD/$NAME-$VERSION.diff ]; then
+  patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff || exit 4
+fi
 
 # build fails without the proper LibXML++ cflags
 LIBXML_CFLAGS=`pkg-config libxml++-2.6 --cflags`
@@ -99,7 +101,9 @@ SBDIR=$PKG/usr/src/slackbuilds/$NAME-$VERSION
 mkdir -p $SBDIR
 install -m 644 $CWD/slack-desc          $SBDIR/slack-desc
 install -m 644 $CWD/slack-required      $SBDIR/slack-required
-install -m 644 $CWD/$NAME-$VERSION.diff $SBDIR/$NAME-$VERSION.diff
+if [ -e $CWD/$NAME-$VERSION.diff ]; then
+  install -m 644 $CWD/$NAME-$VERSION.diff $SBDIR/$NAME-$VERSION.diff
+fi
 install -m 644 $CWD/$NAME.SlackBuild    $SBDIR/$NAME.SlackBuild
 
 # Assemble package
