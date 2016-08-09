@@ -5,7 +5,7 @@
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
 
-. ../slack-package.conf
+. ../../slack-package.conf
 
 NAME=libffado
 VERSION=2.0.1
@@ -42,11 +42,12 @@ patch -p1 -b -z.orig < $CWD/$NAME-$VERSION.diff
 
 # Configure, build & install
 scons \
-  DIST_TARGET=none \
+  DIST_TARGET=auto \
   COMPILE_FLAGS="$FFADO_FLAGS" \
   DEBUG=no \
   ENABLE_OPTIMIZATIONS=yes \
   PREFIX=/usr \
+  LIBDIR=/usr/lib${LIBDIRSUFFIX} \
   SERIALIZE_USE_EXPAT=yes \
   DESTDIR=$PKG install || exit 2
 
