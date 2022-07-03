@@ -23,8 +23,8 @@
 . ../../slack-package.conf
 
 NAME=libffado
-VERSION=2.3.0
-ARCh=${ARCH:-i586}
+VERSION=2.4.5
+ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 FFADO_FLAGS=`echo $SLKCFLAGS | sed s/\-O[123s]//`
 
@@ -65,19 +65,17 @@ if [ -e $CWD/$NAME-$VERSION.diff ]; then
   patch --backup --strip=1 --suffix=.orig < $CWD/$NAME-$VERSION.diff || exit 4
 fi
 
-# build fails without the proper LibXML++ cflags
-LIBXML_CFLAGS=`pkg-config libxml++-2.6 --cflags`
 # Configure, build & install
 scons \
   DIST_TARGET=$SCONS_TARGET \
-  COMPILE_FLAGS="$FFADO_FLAGS $LIBXML_CFLAGS" \
+  CXXFLAGS="$FFADO_FLAGS" \
   DEBUG=no \
   ENABLE_OPTIMIZATIONS=yes \
   PREFIX=/usr \
   LIBDIR=/usr/lib${LIBDIRSUFFIX} \
   SERIALIZE_USE_EXPAT=yes \
   DESTDIR=$PKG install \
-  --jobs 4 || exit 5
+  --jobs 8 || exit 5
 
 # Additional installation steps
 install --mode 755 --directory $PKG/usr/share/applications
@@ -100,6 +98,8 @@ install --mode 644 --preserve-timestamp \
         $CWD/slack-desc     $PKG/install/slack-desc
 install --mode 644 --preserve-timestamp \
         $CWD/slack-required $PKG/install/slack-required
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-suggests $PKG/install/slack-suggests
 
 SBDIR=$PKG/usr/src/slackbuilds/$NAME-$VERSION
 install --mode 755 --directory $SBDIR
